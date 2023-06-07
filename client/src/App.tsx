@@ -2,7 +2,7 @@ import React, { useState, FormEvent, ChangeEvent } from 'react';
 import './index.css';
 
 interface Message {
-  sender: 'user' | 'llmm';
+  role: 'user' | 'assistant';
   content: string;
 }
 
@@ -14,7 +14,7 @@ function App() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const userMessage: Message = { sender: 'user', content: inputValue };
+    const userMessage: Message = { role: 'user', content: inputValue };
     setMessages((messages) => [...messages, userMessage]);
     setInputValue('');
 
@@ -24,14 +24,14 @@ function App() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userMessage: inputValue,
+        messages: [...messages, userMessage],
         system: system,
         properties: properties,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
-        const llmmMessage: Message = { sender: 'llmm', content: data.message };
+        const llmmMessage: Message = { role: 'assistant', content: data.message };
         setMessages((messages) => [...messages, llmmMessage]);
       });
   };
@@ -90,12 +90,12 @@ function App() {
             <div
               key={index}
               className={`mb-2 ${
-                message.sender === 'user' ? 'text-right' : ''
+                message.role === 'user' ? 'text-right' : ''
               }`}
             >
               <span
                 className={`inline-block p-2 rounded-lg ${
-                  message.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-300'
+                  message.role === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-300'
                 }`}
               >
                 {message.content}
