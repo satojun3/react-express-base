@@ -44,7 +44,7 @@ class Logger {
      */
     public info(content: string, param: any): void {
         const timestamp = this.getCurrentTimestamp();
-        const logFile = path.join(this.logDir, `chatlog_${this.getCurrentDate()}.txt`);
+        const logFile = path.join(this.logDir, `chatlog_${this.getCurrentDate()}.log`);
         const paramString = JSON.stringify(param);
         fs.appendFileSync(logFile, `${timestamp}: ${content} Param: ${paramString}\n`);
     }
@@ -56,7 +56,7 @@ class Logger {
      */
     public error(content: string, param: any[]|unknown): void {
         const timestamp = this.getCurrentTimestamp();
-        const logFile = path.join(this.logDir, `errorlog_${this.getCurrentDate()}.txt`);
+        const logFile = path.join(this.logDir, `errorlog_${this.getCurrentDate()}.log`);
         const paramString = JSON.stringify(param);
         fs.appendFileSync(logFile, `${timestamp}: ${content} Param: ${paramString}\n`);
     }
