@@ -6,6 +6,20 @@ interface Message {
   content: string;
 }
 
+class FetchError extends Error {
+    public status: number;
+    public statusText: string;
+    public body: any;
+
+    constructor(message: string, status: number, statusText: string, body: any) {
+        super(message);
+        this.name = 'FetchError';
+        this.status = status;
+        this.statusText = statusText;
+        this.body = body;
+    }
+}
+
 function App() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
@@ -18,7 +32,7 @@ function App() {
     setMessages((messages) => [...messages, userMessage]);
     setInputValue('');
 
-    fetch('http://localhost:8080/api/hello', {
+    fetch('http://localhost:8080/api/ask', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -29,10 +43,30 @@ function App() {
         properties: properties,
       }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then(err => {
+            // TODO 型をきちんと整理する
+            console.log('aaaaaaaaaaaaa', err);
+            throw new FetchError(
+              `HTTP error, status = ${response.status}`,
+              response.status,
+              response.statusText,
+              response.body
+            );
+          });
+        }
+        return response.json()
+      })
       .then((data) => {
         const llmmMessage: Message = { role: 'assistant', content: data.message };
         setMessages((messages) => [...messages, llmmMessage]);
+      })
+      .catch ((err) => {
+        console.log('aa1', err);
+        console.log('aa2', err.statusText);
+        console.log('aa3', err.body);
+        console.log('aa3', err.validation);
       });
   };
 
