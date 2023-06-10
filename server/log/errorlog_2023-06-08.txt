@@ -1,3 +1,0 @@
-2023-06-08T14:50:13.722Z: リクエストの取得失敗 Param: {}
-2023-06-08T14:57:02.557Z: リクエストの取得失敗 Param: {"cause":{"errno":-3001,"code":"EAI_AGAIN","syscall":"getaddrinfo","hostname":"pi.openai.com"}}
-2023-06-08T14:57:23.575Z: リクエストの取得失敗 Param: {}
