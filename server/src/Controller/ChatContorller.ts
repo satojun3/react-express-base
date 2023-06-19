@@ -35,6 +35,21 @@ export default class ChatContorller {
                 messages: this.messageHistory,
                 temperature: 0.7, // 0.0〜1.0の範囲で指定 0.0: 確実に最も確率の高いもの 1.0: ランダム
             }),
+
+
+            // TODO messagesへ保存
+
+            // TODO tagの取得
+
+            // TODO 新規のタグがあればtagsへ保存
+
+            // TODO message_tagsを保存
+
+            // embeddingを取得
+
+            // pineconeへ保存
+
+            // ここまで終わったら機能とフロントの設計
         });
 
         // 失敗
