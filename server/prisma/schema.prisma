@@ -6,6 +6,34 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql" // MySQL provider is used for MariaDB
   url      = env("DATABASE_URL")
+}
+
+model messages {
+  id          Int       @id @default(autoincrement())
+  question    String    @db.Text
+  chat        Json
+  temperature Float
+  max_tokens  Int
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  deleted_at  DateTime? 
+}
+
+model tags {
+  id         Int       @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_at DateTime?
+}
+
+model message_tags {
+  id          Int       @id @default(autoincrement())
+  response_id Int
+  tag_id      Int
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  deleted_at  DateTime?
 }

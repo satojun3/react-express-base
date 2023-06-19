@@ -34,3 +34,15 @@ docker-compose down -v # volume削除（データベースも永久に削除さ�
 ```
 
 reactを追加する
+
+
+
+```sh
+# Prismaのマイグレーションを実行
+npx prisma migrate dev --name init
+
+
+docker-compose down --volumes
+docker-compose up --build
+
+```
